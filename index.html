@@ -255,6 +255,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
+      gap: 8px;
     }
 
     .card-title {
@@ -379,6 +380,113 @@
       cursor: pointer;
     }
 
+    /* Search & Filter Controls */
+    .search-box {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 36px 10px 36px;
+      font-size: 13px;
+      border: 1.5px solid var(--slate-200);
+      border-radius: 13px;
+      background: #f8fafc;
+      color: var(--slate-900);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--emerald-600);
+      background: #fff;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--slate-400);
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--slate-200);
+      color: var(--slate-700);
+      border: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 11px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .filter-controls-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .pill {
+      padding: 6px 11px;
+      border-radius: 20px;
+      border: 1px solid var(--slate-200);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-700);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pill.active {
+      background: var(--emerald-800);
+      color: #fff;
+      border-color: var(--emerald-800);
+    }
+
+    .cat-select {
+      flex: 1;
+      min-width: 0;
+      padding: 6px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--slate-200);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-700);
+      outline: none;
+    }
+
+    .filtered-summary-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--emerald-50);
+      border: 1px solid #d1fae5;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--emerald-900);
+    }
+
     /* Transaction List */
     .tx-list {
       display: flex;
@@ -453,31 +561,82 @@
     .tx-amt.income { color: var(--emerald-700); }
     .tx-amt.expense { color: var(--rose-600); }
 
-    /* Filter Pills */
-    .filter-row {
+    /* Deep Category Breakdown Bars */
+    .cat-breakdown-list {
       display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      overflow-x: auto;
-      padding-bottom: 2px;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .pill {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--slate-200);
-      background: #fff;
-      font-size: 12px;
+    .cb-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .cb-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .cb-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .cb-name {
       font-weight: 600;
-      color: var(--slate-700);
-      cursor: pointer;
+      color: var(--slate-800);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .pill.active {
-      background: var(--emerald-800);
-      color: #fff;
-      border-color: var(--emerald-800);
+    .cb-count {
+      font-size: 11px;
+      color: var(--slate-400);
+      flex-shrink: 0;
+    }
+
+    .cb-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .cb-amt {
+      font-weight: 700;
+      color: var(--slate-900);
+    }
+
+    .cb-pct {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      min-width: 38px;
+      text-align: center;
+    }
+
+    .cb-track {
+      width: 100%;
+      height: 7px;
+      background: var(--slate-100);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .cb-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.35s ease;
     }
 
     /* Bar Chart (12 Months) */
@@ -946,24 +1105,55 @@
       </div>
     </section>
 
-    <!-- TAB 2: HISTORY -->
+    <!-- TAB 2: HISTORY (WITH SEARCH & CATEGORY FILTER) -->
     <section id="tab-history" class="tab-view">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">ประวัติรายการทั้งหมด</h2>
+          <h2 class="card-title">ประวัติรายการ & ค้นหา</h2>
           <span class="card-sub" id="historyCountLabel">0 รายการ</span>
         </div>
-        <div class="filter-row">
-          <button class="pill active" onclick="setHistoryFilter('all', this)">ทั้งหมด</button>
-          <button class="pill" onclick="setHistoryFilter('income', this)">รายรับ</button>
-          <button class="pill" onclick="setHistoryFilter('expense', this)">รายจ่าย</button>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="ค้นหาบันทึกเพิ่มเติม, หมวดหมู่, จำนวนเงิน..." oninput="onSearchInput()" />
+          <button type="button" id="searchClearBtn" class="search-clear" onclick="clearSearch()">✕</button>
         </div>
+
+        <div class="filter-controls-row">
+          <div class="filter-pills">
+            <button class="pill active" onclick="setHistoryFilter('all', this)">ทั้งหมด</button>
+            <button class="pill" onclick="setHistoryFilter('income', this)">รายรับ</button>
+            <button class="pill" onclick="setHistoryFilter('expense', this)">รายจ่าย</button>
+          </div>
+          <select id="historyCategorySelect" class="cat-select" onchange="onCategoryFilterChange()">
+            <option value="all">ทุกหมวดหมู่</option>
+          </select>
+        </div>
+
+        <div id="filteredSummaryBar" class="filtered-summary-bar" style="display:none;">
+          <span id="filteredSummaryText">ผลลัพธ์การค้นหา</span>
+          <strong id="filteredSummaryAmount">฿0</strong>
+        </div>
+
         <div class="tx-list" id="allTxList"></div>
       </div>
     </section>
 
-    <!-- TAB 3: ANALYTICS (12-MONTH & ANNUAL) -->
+    <!-- TAB 3: ANALYTICS (12-MONTH, CATEGORY DEEP DIVE & ANNUAL) -->
     <section id="tab-analytics" class="tab-view">
+      <!-- Deep Category Breakdown Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">เจาะลึกรายหมวดหมู่ประจำเดือน</h2>
+          <div style="display:flex;gap:4px;">
+            <button class="pill active" id="bdPillExpense" style="padding:4px 10px;font-size:11px;" onclick="setBreakdownType('expense')">รายจ่าย</button>
+            <button class="pill" id="bdPillIncome" style="padding:4px 10px;font-size:11px;" onclick="setBreakdownType('income')">รายรับ</button>
+          </div>
+        </div>
+        <div class="cat-breakdown-list" id="categoryBreakdownList"></div>
+      </div>
+
+      <!-- 12-Month Comparison Bar Chart -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">เปรียบเทียบรายรับ-รายจ่าย 12 เดือน</h2>
@@ -978,6 +1168,7 @@
         </div>
       </div>
 
+      <!-- Annual Summary Table -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">ตารางสรุปรายปี</h2>
@@ -999,32 +1190,33 @@
       </div>
     </section>
 
-    <!-- TAB 4: BACKUP & SETTINGS -->
+    <!-- TAB 4: BACKUP, EXCEL/CSV EXPORT & SETTINGS -->
     <section id="tab-settings" class="tab-view">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">ส่งออกรายงาน Excel / CSV</h2>
+        </div>
+        <p style="font-size:13px;color:var(--slate-600);margin-top:0;line-height:1.5;">
+          ดาวน์โหลดข้อมูลรายการรับ-จ่ายเป็นไฟล์ <b>.CSV</b> (รองรับภาษาไทยสมบูรณ์ เปิดได้ทันทีในแอป Excel, Numbers หรือ Google Sheets)
+        </p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-primary" onclick="exportCSV('month')">📊 ส่งออกไฟล์ Excel/CSV (เฉพาะเดือนนี้)</button>
+          <button class="btn-outline" onclick="exportCSV('all')">📑 ส่งออกไฟล์ Excel/CSV (ข้อมูลทั้งหมด)</button>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">สำรองและกู้คืนข้อมูล (JSON)</h2>
         </div>
         <p style="font-size:13px;color:var(--slate-600);margin-top:0;line-height:1.5;">
-          ข้อมูลทั้งหมดถูกจัดเก็บไว้ในหน่วยความจำของเครื่อง iPhone นี้โดยตรง คุณสามารถส่งออกไฟล์สำรองไว้ในแอป <b>ไฟล์ (Files)</b> หรือ iCloud Drive และนำกลับมาใช้ได้ทุกเมื่อ
+          ข้อมูลทั้งหมดถูกจัดเก็บไว้ในหน่วยความจำของเครื่อง iPhone นี้โดยตรง แนะนำให้สำรองไฟล์ <b>.JSON</b> เก็บไว้ในแอป <b>ไฟล์ (Files)</b> หรือ iCloud Drive เป็นประจำ
         </p>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <button class="btn-primary" onclick="exportBackup()">📤 ส่งออกข้อมูลสำรอง (Export JSON)</button>
           <button class="btn-outline" onclick="document.getElementById('importFileInput').click()">📥 นำเข้าข้อมูลสำรอง (Import JSON)</button>
           <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" onchange="importBackup(event)" />
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">ติดตั้งเป็นแอปบนหน้าจอหลัก iPhone</h2>
-        </div>
-        <ol style="font-size:13px;color:var(--slate-700);padding-left:18px;margin:0;line-height:1.65;">
-          <li>เปิดลิงก์ GitHub Pages นี้ผ่านแอป <b>Safari</b></li>
-          <li>แตะปุ่ม <b>แชร์ (Share)</b> รูปสี่เหลี่ยมมีลูกศรชี้ขึ้นด้านล่างหน้าจอ</li>
-          <li>เลื่อนลงแล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</b></li>
-          <li>แตะ <b>"เพิ่ม" (Add)</b> ไอคอน <b>MY WALLET</b> จะปรากฏบนหน้าจอและใช้งานแบบออฟไลน์ได้ทันที</li>
-        </ol>
       </div>
 
       <div class="card">
@@ -1047,19 +1239,19 @@
       <span>ภาพรวม</span>
     </button>
     <button class="nav-btn" id="nav-history" onclick="switchTab('history')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-      <span>รายการ</span>
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <span>รายการ/ค้นหา</span>
     </button>
     <div class="fab-wrap">
       <button class="fab-btn" onclick="openModal()" aria-label="เพิ่มรายการ">+</button>
     </div>
     <button class="nav-btn" id="nav-analytics" onclick="switchTab('analytics')">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-      <span>รายปี</span>
+      <span>วิเคราะห์</span>
     </button>
     <button class="nav-btn" id="nav-settings" onclick="switchTab('settings')">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-      <span>สำรองข้อมูล</span>
+      <span>ส่งออก/สำรอง</span>
     </button>
   </nav>
 
@@ -1106,7 +1298,6 @@
   </div>
 
   <script>
-    // Categories strictly matching user specification (6 Income + 16 Expense)
     const CATEGORIES = {
       income: [
         { id: 'inc_salary',   name: 'เงินเดือน',            icon: '💵', color: '#059669' },
@@ -1144,13 +1335,17 @@
 
     let transactions = [];
     let selectedYear = new Date().getFullYear();
-    let selectedMonth = new Date().getMonth(); // 0-11
+    let selectedMonth = new Date().getMonth();
     let historyFilter = 'all';
+    let historyCategoryFilter = 'all';
+    let searchQuery = '';
+    let breakdownType = 'expense';
     let formType = 'expense';
-    let selectedCategoryId = CATEGORIES.expense[4].id; // Default: อาหารและเครื่องดื่ม
+    let selectedCategoryId = CATEGORIES.expense[4].id;
     let editingId = null;
 
     function init() {
+      populateCategoryFilterDropdown();
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         try {
@@ -1164,11 +1359,25 @@
       renderAll();
     }
 
+    function populateCategoryFilterDropdown() {
+      const sel = document.getElementById('historyCategorySelect');
+      let html = `<option value="all">ทุกหมวดหมู่ (22)</option>`;
+      html += `<optgroup label="หมวดหมู่รายรับ">`;
+      CATEGORIES.income.forEach(c => {
+        html += `<option value="${c.id}">${c.icon} ${c.name}</option>`;
+      });
+      html += `</optgroup><optgroup label="หมวดหมู่รายจ่าย">`;
+      CATEGORIES.expense.forEach(c => {
+        html += `<option value="${c.id}">${c.icon} ${c.name}</option>`;
+      });
+      html += `</optgroup>`;
+      sel.innerHTML = html;
+    }
+
     function loadSampleData(notify) {
       const now = new Date();
       const y = now.getFullYear();
       const m = String(now.getMonth() + 1).padStart(2, '0');
-      // Sample matching user's example: Income 45,000 | Expense 28,500 (Food 35% = 9,975, Home 25% = 7,125, Transport 20% = 5,700, Other 20% = 5,700)
       transactions = [
         { id: 'smp_1', type: 'income',  categoryId: 'inc_salary',    amount: 45000, datetime: `${y}-${m}-01T09:00`, note: 'เงินเดือนประจำเดือน' },
         { id: 'smp_2', type: 'expense', categoryId: 'exp_food',      amount: 9975,  datetime: `${y}-${m}-05T12:30`, note: 'อาหารและเครื่องดื่ม (35%)' },
@@ -1227,7 +1436,6 @@
     }
 
     function renderAll() {
-      // Update month label (Thai Buddhist Year)
       document.getElementById('currentMonthLabel').textContent = `${THAI_MONTHS_SHORT[selectedMonth]} ${selectedYear + 543}`;
       document.getElementById('analyticsYearLabel').textContent = `ปี ${selectedYear + 543}`;
 
@@ -1254,6 +1462,7 @@
       renderDonutChart(monthTx, expenseTotal);
       renderRecentList(monthTx);
       renderHistoryList(monthTx);
+      renderCategoryBreakdown(monthTx);
       renderAnnualAnalytics();
     }
 
@@ -1271,7 +1480,6 @@
         return;
       }
 
-      // Group by category
       const map = {};
       expenses.forEach(t => {
         map[t.categoryId] = (map[t.categoryId] || 0) + Number(t.amount);
@@ -1297,7 +1505,6 @@
       document.getElementById('donutCenterPct').textContent = '100%';
       document.getElementById('donutCenterLbl').textContent = sorted[0].meta.name;
 
-      // Top 4 categories + Others if more
       let displayItems = sorted.slice(0, 4);
       if (sorted.length > 4) {
         const restAmt = sorted.slice(4).reduce((acc, x) => acc + x.amt, 0);
@@ -1357,22 +1564,143 @@
       el.innerHTML = monthTx.slice(0, 5).map(createTxItemHtml).join('');
     }
 
+    // Search & Filter Handlers
+    function onSearchInput() {
+      const val = document.getElementById('searchInput').value;
+      searchQuery = val.trim().toLowerCase();
+      document.getElementById('searchClearBtn').style.display = val.length > 0 ? 'flex' : 'none';
+      renderHistoryList(getMonthTransactions(selectedYear, selectedMonth));
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      searchQuery = '';
+      document.getElementById('searchClearBtn').style.display = 'none';
+      renderHistoryList(getMonthTransactions(selectedYear, selectedMonth));
+    }
+
     function setHistoryFilter(filter, btn) {
       historyFilter = filter;
-      document.querySelectorAll('.filter-row .pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       renderHistoryList(getMonthTransactions(selectedYear, selectedMonth));
     }
 
+    function onCategoryFilterChange() {
+      historyCategoryFilter = document.getElementById('historyCategorySelect').value;
+      renderHistoryList(getMonthTransactions(selectedYear, selectedMonth));
+    }
+
     function renderHistoryList(monthTx) {
-      const filtered = historyFilter === 'all' ? monthTx : monthTx.filter(t => t.type === historyFilter);
+      let filtered = monthTx;
+
+      if (historyFilter !== 'all') {
+        filtered = filtered.filter(t => t.type === historyFilter);
+      }
+
+      if (historyCategoryFilter !== 'all') {
+        filtered = filtered.filter(t => t.categoryId === historyCategoryFilter);
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter(t => {
+          const meta = getCategoryMeta(t.type, t.categoryId);
+          const noteMatch = (t.note || '').toLowerCase().includes(searchQuery);
+          const catMatch = meta.name.toLowerCase().includes(searchQuery);
+          const amtMatch = String(t.amount).includes(searchQuery);
+          return noteMatch || catMatch || amtMatch;
+        });
+      }
+
       document.getElementById('historyCountLabel').textContent = `${filtered.length} รายการ`;
+
+      const sumBar = document.getElementById('filteredSummaryBar');
+      const isFiltering = historyFilter !== 'all' || historyCategoryFilter !== 'all' || searchQuery !== '';
+      if (isFiltering && filtered.length > 0) {
+        const net = filtered.reduce((acc, t) => acc + (t.type === 'income' ? Number(t.amount) : -Number(t.amount)), 0);
+        const absSum = filtered.reduce((acc, t) => acc + Number(t.amount), 0);
+        sumBar.style.display = 'flex';
+        document.getElementById('filteredSummaryText').textContent = `ยอดรวมที่กรอง (${filtered.length} รายการ)`;
+        document.getElementById('filteredSummaryAmount').textContent =
+          historyFilter === 'all' && historyCategoryFilter === 'all'
+            ? (net >= 0 ? '+' : '-') + formatCurrency(Math.abs(net))
+            : formatCurrency(absSum);
+      } else {
+        sumBar.style.display = 'none';
+      }
+
       const el = document.getElementById('allTxList');
       if (filtered.length === 0) {
-        el.innerHTML = `<div class="empty-state">ไม่พบรายการตามตัวกรองที่เลือก</div>`;
+        el.innerHTML = `<div class="empty-state">ไม่พบรายการที่ตรงกับเงื่อนไขการค้นหา</div>`;
         return;
       }
       el.innerHTML = filtered.map(createTxItemHtml).join('');
+    }
+
+    // Category Breakdown Deep Dive
+    function setBreakdownType(type) {
+      breakdownType = type;
+      document.getElementById('bdPillExpense').classList.toggle('active', type === 'expense');
+      document.getElementById('bdPillIncome').classList.toggle('active', type === 'income');
+      renderCategoryBreakdown(getMonthTransactions(selectedYear, selectedMonth));
+    }
+
+    function renderCategoryBreakdown(monthTx) {
+      const list = monthTx.filter(t => t.type === breakdownType);
+      const total = list.reduce((s, t) => s + Number(t.amount), 0);
+      const el = document.getElementById('categoryBreakdownList');
+
+      if (list.length === 0 || total <= 0) {
+        el.innerHTML = `<div class="empty-state" style="padding:16px;">ไม่มีข้อมูล${breakdownType === 'expense' ? 'รายจ่าย' : 'รายรับ'}ในเดือนนี้</div>`;
+        return;
+      }
+
+      const grouped = {};
+      list.forEach(t => {
+        if (!grouped[t.categoryId]) grouped[t.categoryId] = { amt: 0, count: 0 };
+        grouped[t.categoryId].amt += Number(t.amount);
+        grouped[t.categoryId].count += 1;
+      });
+
+      const sorted = Object.entries(grouped)
+        .map(([catId, data]) => ({
+          catId,
+          amt: data.amt,
+          count: data.count,
+          meta: getCategoryMeta(breakdownType, catId)
+        }))
+        .sort((a, b) => b.amt - a.amt);
+
+      el.innerHTML = sorted.map(item => {
+        const pct = ((item.amt / total) * 100).toFixed(1).replace(/\.0$/, '');
+        return `
+          <div class="cb-item" onclick="jumpToCategoryFilter('${item.catId}')" style="cursor:pointer;">
+            <div class="cb-top">
+              <div class="cb-left">
+                <span>${item.meta.icon}</span>
+                <span class="cb-name">${item.meta.name}</span>
+                <span class="cb-count">(${item.count})</span>
+              </div>
+              <div class="cb-right">
+                <span class="cb-amt">${formatCurrency(item.amt)}</span>
+                <span class="cb-pct">${pct}%</span>
+              </div>
+            </div>
+            <div class="cb-track">
+              <div class="cb-fill" style="width:${Math.max(3, (item.amt / total) * 100)}%;background:${item.meta.color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function jumpToCategoryFilter(catId) {
+      historyFilter = 'all';
+      document.querySelectorAll('.filter-pills .pill').forEach((p, idx) => p.classList.toggle('active', idx === 0));
+      document.getElementById('historyCategorySelect').value = catId;
+      historyCategoryFilter = catId;
+      switchTab('history');
+      renderHistoryList(getMonthTransactions(selectedYear, selectedMonth));
     }
 
     function renderAnnualAnalytics() {
@@ -1555,11 +1883,49 @@
       showToast('ลบรายการเรียบร้อย');
     }
 
-    // Export / Import Backup
+    // Export CSV (Excel-compatible with UTF-8 BOM)
+    function exportCSV(scope) {
+      const list = scope === 'month'
+        ? getMonthTransactions(selectedYear, selectedMonth)
+        : [...transactions].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+
+      if (list.length === 0) {
+        showToast('ไม่มีรายการสำหรับส่งออก');
+        return;
+      }
+
+      const headers = ['วันที่และเวลา', 'ประเภท', 'หมวดหมู่', 'จำนวนเงิน (บาท)', 'บันทึกเพิ่มเติม'];
+      const rows = list.map(t => {
+        const meta = getCategoryMeta(t.type, t.categoryId);
+        const typeLabel = t.type === 'income' ? 'รายรับ' : 'รายจ่าย';
+        const dtFormatted = t.datetime.replace('T', ' ');
+        const safeNote = `"${String(t.note || '').replace(/"/g, '""')}"`;
+        const safeCat = `"${meta.name.replace(/"/g, '""')}"`;
+        return [dtFormatted, typeLabel, safeCat, Number(t.amount).toFixed(2), safeNote].join(',');
+      });
+
+      const csvContent = '﻿' + [headers.join(','), ...rows].join('
+');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const suffix = scope === 'month'
+        ? `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}`
+        : `all-${new Date().toISOString().slice(0, 10)}`;
+      a.href = url;
+      a.download = `MY-WALLET-${suffix}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`ส่งออก CSV สำเร็จ (${list.length} รายการ)`);
+    }
+
+    // Export / Import JSON Backup
     function exportBackup() {
       const payload = {
         app: 'MY WALLET',
-        version: '1.0',
+        version: '2.0',
         exportedAt: new Date().toISOString(),
         transactions
       };
@@ -1615,7 +1981,6 @@
       setTimeout(() => el.classList.remove('show'), 2300);
     }
 
-    // Register Service Worker for GitHub Pages Offline PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
